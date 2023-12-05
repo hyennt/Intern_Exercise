@@ -3,7 +3,7 @@ package services
 import (
 	"Exercise/constants"
 	"Exercise/models"
-	ultis "Exercise/ultis/calculation"
+	"Exercise/ultis/calculation"
 	"Exercise/ultis/validation"
 )
 
@@ -25,7 +25,7 @@ func NewOfferService() IOfferService {
 	return &OfferService{}
 }
 
-// 2.313
+// Time : 2.313
 func (o *OfferService) FilterOffers(offers []models.Offer, checkInDate string) (OffersOutput, error) {
 	var validOffers []models.Offer
 

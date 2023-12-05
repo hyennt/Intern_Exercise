@@ -39,9 +39,4 @@ E.g :
 ## Output Time Performance 
  I am using Benchmark for comparing
 
-BenchmarkMain-8
-14379             
-81930 ns/op
-
-ok      Exercise        2.174s
 

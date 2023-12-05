@@ -1,20 +1,22 @@
 package main
 
 import (
-	"Exercise/models"
-	services "Exercise/services/offers"
-	ultis "Exercise/ultis/dataimporting"
 	"encoding/json"
 	"fmt"
+	"os"
+
+	"Exercise/models"
+	"Exercise/services/offers"
+	"Exercise/ultis/dataimporting"
 )
 
 const (
-	inputPath  = "storages/input/input3.json"
+	//inputPath  = "storages/input/input3.json"
 	outputPath = "storages/output/output.json"
 	fileMode   = 0644
 )
 
-const checkInDate = "2019-12-25"
+//const checkInDate = "2019-12-25"
 
 type Offers struct {
 	Offers []models.Offer `json:"offers"`
@@ -26,8 +28,8 @@ func main() {
 	var offers Offers
 
 	// Paste param from command line
-	//checkInDate := os.Args[1]
-	//inputPath := os.Args[2]
+	checkInDate := os.Args[1]
+	inputPath := os.Args[2]
 
 	// Read JSON File
 	offerInBytes, err := ultis.ReadJSONFile(inputPath)
