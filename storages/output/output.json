@@ -7,26 +7,26 @@
    "category": 1,
    "merchants": [
     {
-     "id": 3,
-     "name": "Offer1 Merchant3",
-     "distance": 0.1
+     "id": 1,
+     "name": "Offer1 Merchant1",
+     "distance": 0.5
     }
    ],
-   "valid_to": "2023-12-06"
+   "valid_to": "2020-02-01"
   },
   {
-   "id": 2,
-   "title": "Offer 2",
-   "description": "Offer 2 description",
+   "id": 3,
+   "title": "Offer 3",
+   "description": "Offer 3 description",
    "category": 2,
    "merchants": [
     {
      "id": 3,
-     "name": "Offer2 Merchant3",
-     "distance": 0.1
+     "name": "Offer3 Merchant1",
+     "distance": 0.8
     }
    ],
-   "valid_to": "2023-12-07"
+   "valid_to": "2020-01-01"
   }
  ]
 }

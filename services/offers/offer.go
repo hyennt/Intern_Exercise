@@ -1,9 +1,11 @@
 package services
 
 import (
+	"errors"
+
 	"Exercise/constants"
 	"Exercise/models"
-	ultis "Exercise/ultis/calculation"
+	"Exercise/ultis/sorting"
 	"Exercise/ultis/validation"
 )
 
@@ -18,29 +20,32 @@ type IOfferService interface {
 }
 
 type OfferService struct {
-	// Call database and log here
+	// Call database and log here for
 }
 
 func NewOfferService() IOfferService {
 	return &OfferService{}
 }
 
-// 2.313
 func (o *OfferService) FilterOffers(offers []models.Offer, checkInDate string) (OffersOutput, error) {
 	var validOffers []models.Offer
 
-	// Validate CheckInDate and Category
-	filterValidOffers := func(offer models.Offer) bool {
-		return validation.CheckValidDate(checkInDate, offer.ValidDate) && constants.CategoriesMapping["Hotel"] != offer.Category
+	checkInDateTime, ok := validation.ValidDate(checkInDate)
+	if !ok {
+		return OffersOutput{nil}, errors.New("FORMATTED DATE MUST BE YYYY-MM-DD")
 	}
 
-	// Sort Merchants by distance
+	// Validate CheckInDate and Category
+	filterValidOffers := func(offer models.Offer) bool {
+		return validation.CheckValidDate(checkInDateTime, offer.ValidDate) && constants.CategoriesMapping["Hotel"] != offer.Category
+	}
+
+	// Process Merchants to find min distance
 	processMerchants := func(offer models.Offer) models.Offer {
-		minMerchants := ultis.SortMerchants(offer.Merchants)
+		minMerchants := ultis.FindMinDistanceMerchants(offer.Merchants)
 		offer.Merchants = []models.Merchant{*minMerchants}
 		return offer
 	}
-
 	for _, offer := range offers {
 		if filterValidOffers(offer) {
 			validOffers = append(validOffers, processMerchants(offer))
@@ -48,7 +53,7 @@ func (o *OfferService) FilterOffers(offers []models.Offer, checkInDate string) (
 	}
 
 	// Sort Offers by Distance
-	validOffers = ultis.SortValidOffers(validOffers)
+	validOffers = ultis.QuickSortOffers(validOffers)
 
 	if len(validOffers) > 2 {
 		validOffers = validOffers[:2]
