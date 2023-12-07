@@ -1,29 +1,29 @@
 package validation
 
 import (
-	"fmt"
 	"time"
 )
 
 const (
 	TimeFormat = "2006-01-02"
-	FiveDays   = 120 * time.Hour
 )
 
-func CheckValidDate(checkInDate string, date string) bool {
-	checkInDateTime, err := time.Parse(TimeFormat, checkInDate)
-	if err != nil {
-		fmt.Println("Error parsing date. Wrong Format:", err)
-		return false
-	}
-
+func ValidDate(date string) (time.Time, bool) {
 	dateTime, err := time.Parse(TimeFormat, date)
 	if err != nil {
-		fmt.Println("Error parsing date. Wrong Format:", err)
+		return time.Time{}, false
+	}
+	return dateTime, true
+}
+
+
+func CheckValidDate(checkInDate time.Time, date string) bool {
+	dateTime, ok := ValidDate(date)
+	if !ok {
 		return false
 	}
 
-	validTo := checkInDateTime.Add(FiveDays)
+	validTo := checkInDate.AddDate(0, 0, 5)
 
 	if dateTime.Equal(validTo) || dateTime.After(validTo) {
 		return true
